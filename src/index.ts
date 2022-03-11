@@ -3,7 +3,7 @@ import { connectToDatabase } from "./services/database.service";
 import { invoiceRouter } from "./routes/invoices.router";
 
 const app = express();
-const PORT = 8080;
+const PORT = 7002;
 
 connectToDatabase()
     .then(() => {
