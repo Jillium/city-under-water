@@ -1,17 +1,19 @@
-const express = require('express');
-
+import express from "express";
+import { connectToDatabase } from "./services/database.service";
+import { invoiceRouter } from "./routes/invoices.router";
 
 const app = express();
 const PORT = 8080;
 
-// ** TODO ** Replace this code with a call to your games router class to handle all calls to /games endpoint
-app.get("/", (req, res) => {
-    res.send("Hello world!");
-});
+connectToDatabase()
+    .then(() => {
+        app.use("/invoices", invoiceRouter);
 
-// start the Express server
-app.listen(PORT, () => {
-    console.log(`server started at http://localhost:${PORT}`);
-
-    // ** TODO ** Call to Game Service to initiate connection
-});
+        app.listen(PORT, () => {
+            console.log(`Server started at http://localhost:${PORT}`);
+        });
+    })
+    .catch((error: Error) => {
+        console.error("Database connection failed", error);
+        process.exit();
+    });
